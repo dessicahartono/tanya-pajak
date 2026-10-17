@@ -1,0 +1,32 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Android",
+      "type": "dart",
+      "request": "launch",
+      "program": "lib/main.dart",
+      "deviceId": "emulator"
+    },
+    {
+      "name": "iPhone",
+      "type": "dart",
+      "request": "launch",
+      "program": "lib/main.dart",
+      "deviceId": "iPhone"
+    },
+    {
+      "name": "macOS",
+      "type": "dart",
+      "request": "launch",
+      "program": "lib/main.dart",
+      "deviceId": "macos"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Semua device",
+      "configurations": ["Android", "iPhone", "macOS"]
+    }
+  ]
+}

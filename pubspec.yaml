@@ -1,0 +1,25 @@
+name: tanyapajak
+description: Prototipe asisten tanya-jawab pajak (proyek akhir AI).
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  google_fonts: ^6.2.1
+  url_launcher: ^6.3.0
+  http: ^1.2.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    # Font Plus Jakarta Sans disimpan di app supaya tidak perlu internet.
+    - assets/google_fonts/
