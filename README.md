@@ -1,13 +1,25 @@
 # TanyaPajak
 
-Proyek akhir mata kuliah AI. Aplikasinya buat tanya-jawab seputar pajak: pertanyaan
-pengguna disaring dulu (pajak atau bukan), lalu diklasifikasi topiknya, terus dicari
-FAQ pajak.go.id yang paling mirip. Kalau FAQ-nya tidak ada atau pertanyaannya bukan
+Proyek akhir mata kuliah Artificial Intelligence. Aplikasinya buat tanya-jawab seputar
+pajak: pertanyaan pengguna disaring dulu (pajak atau bukan), lalu diklasifikasi
+topiknya, terus dicari FAQ pajak.go.id yang paling mirip. Kalau FAQ-nya tidak ada atau pertanyaannya bukan
 soal pajak, sistem bilang terus terang dan mengarahkan ke Kring Pajak 1500200.
+
+Semuanya pakai machine learning klasik dari scikit-learn: TF-IDF dan SVM untuk
+penyaring dan klasifikasi topik, lalu kemiripan TF-IDF untuk mencari FAQ. Tidak ada
+LLM, API AI, atau model pretrained.
 
 Isinya tiga bagian. Folder `training-ml/` berisi notebook dan dataset (ini yang
 dikumpulkan sebagai Project Final). Folder `backend/` berisi API FastAPI yang memuat model
 `tanyapajak_lengkap.joblib` hasil notebook. Folder `lib/` berisi aplikasi Flutter-nya.
+
+## Dataset
+
+Datanya ada di `training-ml/dataset-tanyapajak.csv`, isinya 848 baris. Sebanyak 777 di
+antaranya pertanyaan pajak dari FAQ pajak.go.id yang diambil 27 September sampai 10
+Oktober 2026, beserta parafrasenya, dan terbagi ke 11 topik (PPN, SPT Tahunan, NPWP,
+e-Filing, Coretax, dan lain-lain). Sisanya 71 pertanyaan bukan pajak yang saya tulis
+sendiri untuk melatih penyaring. Penjelasan tiap kolom ada di notebook bagian 2.
 
 ## Notebook
 
@@ -65,9 +77,6 @@ Urutan yang dicek backend:
    0.40, pencarian diulang di semua topik. Kalau tetap tidak ada, `faq_ditemukan`
    bernilai `false` dan aplikasi menampilkan tombol Kring Pajak di kartu jawaban.
 
-Untuk mencoba joblib lain tanpa menimpa yang aktif, isi env `TANYAPAJAK_MODEL` dengan
-path file joblib-nya sebelum menjalankan server.
-
 ## Aplikasi Flutter
 
 Nyalakan backend dulu, baru di terminal lain:
@@ -80,6 +89,8 @@ flutter run
 Alamat API diatur di `lib/config.dart` dan sudah otomatis: `10.0.2.2` untuk
 emulator Android, `127.0.0.1` untuk macOS dan simulator iOS. Kalau dites
 di HP langsung, ganti dengan IP laptop (HP dan laptop harus satu wifi).
+
+Test-nya bisa dijalankan dengan `flutter test`.
 
 ### Versi web
 
@@ -100,24 +111,40 @@ Versi web otomatis memanggil backend di host yang sama dengan halamannya (port 8
 jadi alamat API tidak perlu diganti. Backend sudah mengizinkan CORS supaya browser
 boleh memanggilnya.
 
-Kalau backend nanti di-deploy ke server, build dengan alamatnya:
-
-```bash
-flutter build web --dart-define=API_URL=https://alamat-backend
-```
-
-Kalau halaman web-nya dibuka lewat `https://`, backend juga harus `https://`, karena
-browser memblokir panggilan dari halaman https ke alamat http. Tombol telepon Kring
-Pajak di browser laptop biasanya tidak bisa membuka aplikasi telepon, jadi yang muncul
-pesan "Tidak bisa membuka tel:1500200". Di browser HP tombolnya tetap jalan.
+Tombol telepon Kring Pajak cuma jalan di browser HP, di browser laptop tidak bisa
+membuka aplikasi telepon.
 
 ## Contoh pertanyaan buat demo
 
-- "lapor spt online gmn ya?" masuk ke topik e-Filing dan dapat langkah lapor SPT
-- "lupa efin gimana?" masuk ke topik EFIN
-- "ptkp tahun ini berapa" FAQ-nya tidak ada, jadi sistem bilang terus terang dan
-  muncul tombol Kring Pajak
-- "cara bikin akun instagram baru" ditolak penyaring karena bukan soal pajak
-- "bayar pajak online" keyakinannya 0.45, jadi muncul layar "kurang yakin" dengan tiga
-  saran topik
+Pertanyaan yang FAQ-nya ketemu dan jawabannya enak dilihat:
+
+- "lupa password djp online" masuk e-Filing, dapat langkah reset lewat EFIN
+- "kalau ga lapor spt ada sanksinya?" masuk Sanksi & Denda, dapat nominal dendanya
+  (Rp100.000 untuk orang pribadi)
+- "beda spt 1770 sama 1770 s" masuk SPT Tahunan, dijelaskan tiga jenis formulirnya
+- "nik jadi npwp gimana caranya" masuk NPWP, dapat jalur pemadanan NIK
+- "cara batalin kode billing" masuk Kode Billing, dijawab bahwa kode billing tidak bisa
+  dihapus
+- "coretax itu apa" masuk Coretax dengan keyakinan 0.95
+
+Yang pajak tapi FAQ-nya tidak ada, jadi sistem tidak menebak dan muncul tombol Kring
+Pajak:
+
+- "ptkp tahun ini berapa"
+- "pajak kendaraan bermotor bayar dimana" (ini memang bukan urusan DJP, tapi Samsat)
+
+Sisanya buat nunjukin penyaring dan layar lain:
+
+- "rekomendasi film horor" atau "cara transfer bank bca" ditolak karena bukan soal pajak
+- "lapor pajak" keyakinannya cuma 0.34 karena terlalu pendek, jadi muncul layar "kurang
+  yakin" dengan saran topik Umum, e-Filing, dan SPT Tahunan
 - "resep nasi goreng enak" tidak ada kata yang dikenal, jadi muncul pesan "belum paham"
+
+## Keterbatasan
+
+Cakupan FAQ masih terbatas, jadi banyak pertanyaan pajak yang wajar (misalnya PTKP
+atau berapa potongan PPh 21 dari gaji) belum bisa dijawab. Pencarian FAQ juga masih
+berbasis kata, belum memahami makna kalimat, dan penyaring kadang masih meloloskan
+pertanyaan umum seperti "siapa presiden indonesia sekarang". Hasil evaluasi lengkap,
+angka sebelum dan sesudah perbaikan, dan rencana pengembangannya ada di
+`docs/summary.md`. Penjelasan isi tiap file ada di `docs/struktur-file.md`.

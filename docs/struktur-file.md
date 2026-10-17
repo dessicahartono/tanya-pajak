@@ -1,7 +1,7 @@
 # Struktur File TanyaPajak
 
 Catatan ini menjelaskan isi tiap file di proyek. Bagian yang paling penting ada di
-`training-ml/`, `backend/`, dan `lib/`, karena di situ kode yang kami tulis sendiri.
+`training-ml/`, `backend/`, dan `lib/`, karena di situ kode yang saya tulis sendiri.
 Folder `android/`, `ios/`, dan `macos/` kebanyakan dibuat otomatis oleh Flutter, jadi
 cukup dijelaskan singkat.
 
@@ -304,7 +304,7 @@ dianggap `true`.
 ## Folder platform
 
 Semua folder di bawah ini dibuat oleh `flutter create`. Hanya beberapa file yang
-kami ubah.
+saya ubah.
 
 ### android/
 
