@@ -32,7 +32,8 @@ tanyapajak/
 ├── test/prediction_test.dart
 ├── docs/
 │   ├── summary.md
-│   └── struktur-file.md
+│   ├── struktur-file.md
+│   └── screenshots/
 ├── android/  ios/  macos/  web/
 ├── pubspec.yaml  pubspec.lock  analysis_options.yaml
 └── README.md  .gitignore

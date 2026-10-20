@@ -13,6 +13,18 @@ Isinya tiga bagian. Folder `training-ml/` berisi notebook dan dataset (ini yang
 dikumpulkan sebagai Project Final). Folder `backend/` berisi API FastAPI yang memuat model
 `tanyapajak_lengkap.joblib` hasil notebook. Folder `lib/` berisi aplikasi Flutter-nya.
 
+## Tampilan aplikasi
+
+Diambil dari simulator iPhone 18 Pro (iOS 27).
+
+| Beranda | Jawaban dari FAQ | FAQ tidak ada | Di luar pajak |
+| :---: | :---: | :---: | :---: |
+| <img src="docs/screenshots/beranda.png" width="200"> | <img src="docs/screenshots/jawaban-faq.png" width="200"> | <img src="docs/screenshots/faq-tidak-ada.png" width="200"> | <img src="docs/screenshots/di-luar-pajak.png" width="200"> |
+
+Dari kiri ke kanan: halaman awal dengan topik populer, pertanyaan yang FAQ-nya ketemu,
+pertanyaan pajak yang FAQ-nya belum ada (jadi diarahkan ke Kring Pajak), dan pertanyaan
+yang bukan soal pajak.
+
 ## Dataset
 
 Datanya ada di `training-ml/dataset-tanyapajak.csv`, isinya 848 baris. Sebanyak 777 di
